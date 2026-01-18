@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander - Profile</title>
+<style>
+:root {
+    --bg-color: #000000;
+    --card-bg: #0a0a0a;
+    --border-color: #222222;
+    --text-main: #ffffff;
+    --text-secondary: #999999;
+    --tag-bg: #151515;
+    --accent: #4caf50;
+    --avatar-border: #888888;
+    --copy-btn-bg: #555555;
+    --copy-btn-hover: #777777;
+    --copy-btn-active: #ffffff;
+}
+
+body {
+    margin:0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+#preloader {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #222;
+    border-top: 3px solid #999;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px;
+}
+.loader-text {
+    color: white;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.container {
+    max-width: 440px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.loaded .container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+}
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 2px solid var(--avatar-border);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info h1 {
+    margin:0;
+    font-family: monospace;
+    letter-spacing: 1px;
+    font-size: 24px;
+}
+.profile-info p {
+    margin:4px 0 10px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ОБНОВЛЕННЫЕ КНОПКИ СОЦСЕТЕЙ */
+.social-links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+.social-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    background-color: #000000;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Эффект для Telegram */
+.tg-btn:hover {
+    background-color: #0088cc; /* Синий */
+    color: #ffffff; /* Белый текст */
+    border-color: #0088cc;
+}
+
+/* Эффект для TikTok */
+.tt-btn:hover {
+    background-color: #ff0050; /* Красный */
+    color: #000000; /* Черный текст */
+    border-color: #ff0050;
+}
+
+.section-title {
+    font-size:10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom:15px;
+    display:block;
+}
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+.info-item {
+    display:flex;
+    gap:6px;
+    font-size:14px;
+}
+.info-label {
+    color: var(--text-secondary);
+}
+.info-value {
+    font-weight:500;
+}
+
+/* Games Tags */
+.tech-tags {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+.tag {
+    background-color: var(--tag-bg);
+    color:#fff;
+    padding:6px 14px;
+    border-radius:8px;
+    font-size:12px;
+    border:1px solid var(--border-color);
+    cursor:pointer;
+    transition:0.15s;
+}
+.tag:hover { background:#1c1c1c; transform:translateY(-1px); }
+
+/* Timer */
+.footer-timer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    border-radius:16px;
+    border:1px solid var(--border-color);
+    background:#0a0a0a;
+}
+.timer-block {
+    text-align:center;
+    width:60px;
+}
+.timer-num {
+    font-size:22px;
+    font-weight:700;
+}
+.timer-label {
+    font-size:8px;
+    color: var(--text-secondary);
+    margin-top:4px;
+}
+
+/* Modal */
+.modal-overlay {
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,0.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.25s;
+    z-index: 1000;
+}
+.modal-overlay.active {
+    opacity:1;
+    pointer-events:all;
+}
+.modal {
+    background: var(--card-bg);
+    border:1px solid var(--border-color);
+    border-radius:18px;
+    padding:22px;
+    max-width:360px;
+    width:90%;
+    transform:scale(0.92);
+    transition:0.25s;
+}
+.modal-overlay.active .modal { transform:scale(1);}
+.modal-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+.modal-title {
+    font-size:14px;
+    text-transform:uppercase;
+    color:#fff;
+}
+.modal-close {
+    background:none;
+    border:none;
+    font-size:24px;
+    color:#aaa;
+    cursor:pointer;
+}
+.modal-list {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+.modal-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+}
+.modal-label { color: var(--text-secondary);}
+.modal-value { color:#fff; font-weight:500; display:flex; align-items:center; gap:6px;}
+.copy-btn { cursor:pointer; font-size:11px; background:var(--copy-btn-bg); color:#fff; padding:2px 8px; border-radius:4px; text-transform: uppercase;}
+.copy-btn:hover{ background: var(--copy-btn-hover);}
+.copy-btn.copied{ background: var(--accent); }
+
+</style>
+</head>
+<body>
+
+<div id="preloader">
+    <div class="spinner"></div>
+    <div class="loader-text">Вход В Систему</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="profile-card">
+            <div class="avatar">
+                <img src="https://i.ibb.co/Wpj3fVx3/1000188901.jpg" alt="Avatar">
+            </div>
+            <div class="profile-info">
+                <h1>Wolzer</h1>
+                <p>@quantillionov</p>
+            </div>
+        </div>
+        
+        <div class="social-links-container">
+            <a href="https://t.me/quantillionov" target="_blank" class="social-link-btn tg-btn">
+                Telegram
+            </a>
+            <a href="https://www.tiktok.com/@MS4wLjABAAAAI_Rd4Dp4dJMkT8XqFT0PZ0rrIO8zZjaxCBCZr1WUCtCb3BcSFFudiA_QynXc2pcF" target="_blank" class="social-link-btn tt-btn">
+                TikTok
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="section-title">About Me</span>
+        <div class="info-list">
+            <div class="info-item"><span class="info-label">Name:</span><span class="info-value">Alexander</span></div>
+            <div class="info-item"><span class="info-label">Timezone:</span><span class="info-value">+7</span></div>
+            <div class="info-item"><span class="info-label">Phone:</span><span class="info-value">+7</span></div>
+            <div class="info-item"><span class="info-label">Live In:</span><span class="info-value">Russia</span></div>
+            <div class="info-item"><span class="info-label">Tg Number:</span><span class="info-value">+1</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="section-title">Favorite Games</span>
+        <div class="tech-tags">
+            <div class="tag" onclick="openModal('brawl')">Brawl Stars</div>
+            <div class="tag" onclick="openModal('roblox')">Roblox</div>
+            <div class="tag" onclick="openModal('minecraft')">Minecraft</div>
+        </div>
+    </div>
+
+    <div>
+        <span class="section-title" style="padding-left: 5px;">Birthday Timer</span>
+        <div class="footer-timer">
+            <div class="timer-block"><span class="timer-num" id="days">0</span><span class="timer-label">DAYS</span></div>
+            <div class="timer-block"><span class="timer-num" id="hours">0</span><span class="timer-label">HOURS</span></div>
+            <div class="timer-block"><span class="timer-num" id="mins">0</span><span class="timer-label">MIN</span></div>
+            <div class="timer-block"><span class="timer-num" id="secs">0</span><span class="timer-label">SEC</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle"></div>
+            <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-list" id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function(){
+    setTimeout(()=>{
+        document.getElementById('preloader').style.opacity='0';
+        setTimeout(() => {
+            document.getElementById('preloader').style.visibility='hidden';
+        }, 500);
+        document.body.classList.add('loaded');
+    }, 1200);
+});
+
+function updateTimer(){
+    const now = new Date();
+    let year=now.getFullYear();
+    let target=new Date(`${year}-08-28T00:00:00+07:00`);
+    if(now>target){year++;target=new Date(`${year}-08-28T00:00:00+07:00`);}
+    let diff=target-now;
+    document.getElementById('days').innerText=Math.floor(diff/86400000);
+    document.getElementById('hours').innerText=Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
+    document.getElementById('mins').innerText=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+    document.getElementById('secs').innerText=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
+}
+setInterval(updateTimer,1000);
+updateTimer();
+
+const gameData={
+brawl:{title:"Brawl Stars", rows:[{label:"Trophy",value:"40K+"},{label:"Supercell ID",value:"WOLZERquant",copy:true},{label:"ID",value:"#GUL8JC900",copy:true},{label:"Nick",value:"Wolzer|qn"},{label:"Max Ranks",value:"20"}]},
+minecraft:{title:"Minecraft", rows:[{label:"Version",value:"Bedrock 1.21.124"},{label:"Player Tag",value:"Walker#3470",copy:true},{label:"Achievements",value:"109"},{label:"Hours",value:"280"}]},
+roblox:{title:"Roblox", rows:[{label:"Main Acc",value:"WolzerQuant",copy:true},{label:"Twink Acc",value:"WolzerQuantillionov",copy:true},{label:"Date of Registration",value:"13.03.2022"},{label:"Favorite Places",value:"Build A Boat, Muscle Legends, Prison Life"}]}
+};
+
+function openModal(game){
+    const m=document.getElementById('modal');
+    const t=document.getElementById('modalTitle');
+    const c=document.getElementById('modalContent');
+    t.innerText=gameData[game].title;
+    c.innerHTML='';
+    gameData[game].rows.forEach(r=>{
+        const div=document.createElement('div');
+        div.className='modal-row';
+        div.innerHTML=`<span class="modal-label">${r.label}:</span><span class="modal-value">${r.value}${r.copy?'<span class="copy-btn" onclick="copyText(\''+r.value+'\',this)">Copy</span>':''}</span>`;
+        c.appendChild(div);
+    });
+    m.classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal') closeModal();});
+function copyText(t,el){
+    navigator.clipboard.writeText(t);
+    el.innerText = 'Copied!';
+    el.classList.add('copied');
+    setTimeout(()=>{
+        el.innerText = 'Copy';
+        el.classList.remove('copied');
+    },1200);
+}
+</script>
+</body>
+</html>
