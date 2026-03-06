@@ -130,25 +130,36 @@ body {
     font-size: 14px;
     font-weight: 600;
     transition: all 0.3s ease;
+    transform: translateX(0);
     border: 1px solid var(--border-color);
     background-color: #000000;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+.social-link-btn:hover {
+    transform: translateX(4px);
+}
 
 /* Эффект для Telegram */
 .tg-btn:hover {
-    background-color: #0088cc; /* Синий */
-    color: #ffffff; /* Белый текст */
+    background-color: #0088cc;
+    color: #ffffff;
     border-color: #0088cc;
 }
 
 /* Эффект для TikTok */
 .tt-btn:hover {
-    background-color: #ff0050; /* Красный */
-    color: #000000; /* Черный текст */
+    background-color: #ff0050;
+    color: #000000;
     border-color: #ff0050;
+}
+
+/* Эффект для Wolzer's Rep */
+.rep-btn:hover {
+    background-color: #888888;
+    color: #ffffff;
+    border-color: #888888;
 }
 
 .section-title {
@@ -298,13 +309,16 @@ body {
             </div>
             <div class="profile-info">
                 <h1>Wolzer</h1>
-                <p>@quantillionov</p>
+                <p>@wolzerov</p>
             </div>
         </div>
         
         <div class="social-links-container">
-            <a href="https://t.me/quantillionov" target="_blank" class="social-link-btn tg-btn">
+            <a href="https://t.me/wolzerov" target="_blank" class="social-link-btn tg-btn">
                 Telegram
+            </a>
+            <a href="https://t.me/wolzerovrep" target="_blank" class="social-link-btn rep-btn">
+                Wolzer's Rep
             </a>
             <a href="https://www.tiktok.com/@MS4wLjABAAAAI_Rd4Dp4dJMkT8XqFT0PZ0rrIO8zZjaxCBCZr1WUCtCb3BcSFFudiA_QynXc2pcF" target="_blank" class="social-link-btn tt-btn">
                 TikTok
@@ -379,7 +393,7 @@ setInterval(updateTimer,1000);
 updateTimer();
 
 const gameData={
-brawl:{title:"Brawl Stars", rows:[{label:"Trophy",value:"40K+"},{label:"Supercell ID",value:"WOLZERquant",copy:true},{label:"ID",value:"#GUL8JC900",copy:true},{label:"Nick",value:"Wolzer|qn"},{label:"Max Ranks",value:"20"}]},
+brawl:{title:"Brawl Stars", rows:[{label:"Trophy",value:"43K"},{label:"Supercell ID",value:"WOLZERquant",copy:true},{label:"ID",value:"#GUL8JC900",copy:true},{label:"Nick",value:"Wolzer|qn"},{label:"Max Ranks",value:"20"}]},
 minecraft:{title:"Minecraft", rows:[{label:"Version",value:"Bedrock 1.21.124"},{label:"Player Tag",value:"Walker#3470",copy:true},{label:"Achievements",value:"109"},{label:"Hours",value:"280"}]},
 roblox:{title:"Roblox", rows:[{label:"Main Acc",value:"WolzerQuant",copy:true},{label:"Twink Acc",value:"WolzerQuantillionov",copy:true},{label:"Date of Registration",value:"13.03.2022"},{label:"Favorite Places",value:"Build A Boat, Muscle Legends, Prison Life"}]}
 };
@@ -411,4 +425,4 @@ function copyText(t,el){
 }
 </script>
 </body>
-</html>
+                </html>
