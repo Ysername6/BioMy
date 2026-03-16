@@ -11,17 +11,16 @@
             --border-color: #222222;
             --text-main: #ffffff;
             --text-secondary: #999999;
+            --tag-bg: #151515;
             --accent: #4caf50;
             --avatar-border: #888888;
-            --button-hover: #555555;
-            --button-active: #777777;
-            --progress-color: #4caf50;
-            --control-btn-color: #ffffff;
-            --control-btn-hover: #888888;
+            --copy-btn-bg: #555555;
+            --copy-btn-hover: #777777;
+            --copy-btn-active: #ffffff;
         }
 
         body {
-            margin: 0;
+            margin:0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -45,29 +44,33 @@
         }
 
         @keyframes particles {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100%); }
+            from { transform: translateY(0); }
+            to { transform: translateY(100%); }
         }
 
-        /* Эффект для звездочек, которые сыплются */
-        .star {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background-color: var(--star-color);
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #222;
+            border-top: 3px solid #999;
             border-radius: 50%;
-            animation: fall 5s infinite linear;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
         }
-
-        @keyframes fall {
-            from {
-                transform: translateY(-100px);
-                opacity: 1;
-            }
-            to {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .container {
@@ -76,6 +79,14 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .loaded .container {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .card {
@@ -85,102 +96,146 @@
             padding: 20px;
         }
 
-        /* Новый квадратный проигрыватель */
-        .music-player {
-            width: 300px;
-            height: 300px;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 15px;
+        .profile-card {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
+            gap: 15px;
         }
 
-        .track-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
             border: 2px solid var(--avatar-border);
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .track-avatar img {
+        .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .progress-bar {
-            width: 80%;
-            height: 10px;
-            background-color: #444;
-            border-radius: 5px;
-            margin: 10px 0;
-            position: relative;
+        .profile-info h1 {
+            margin:0;
+            font-family: monospace;
+            letter-spacing: 1px;
+            font-size: 24px;
         }
 
-        .progress {
-            width: 50%; /* Примерный прогресс */
-            height: 100%;
-            background-color: var(--progress-color);
-            border-radius: 5px;
+        .profile-info p {
+            margin:4px 0 10px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-        .control-buttons {
+        .social-links-container {
             display: flex;
-            gap: 20px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .social-link-btn {
+            display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            transform: translateX(0);
+            border: 1px solid var(--border-color);
+            background-color: #000000;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .control-btn {
-            background: none;
-            border: none;
-            color: var(--control-btn-color);
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s ease;
+        .social-link-btn:hover {
+            transform: translateX(4px);
         }
 
-        .control-btn:hover {
-            color: var(--control-btn-hover);
+        /* Эффекты для кнопок соцсетей */
+        .tg-btn:hover {
+            background-color: #0088cc;
+            color: #ffffff;
+            border-color: #0088cc;
         }
 
-        .control-btn:focus {
-            outline: none;
+        .tt-btn:hover {
+            background-color: #ff0050;
+            color: #000000;
+            border-color: #ff0050;
         }
 
-        .pause-play-btn {
-            background-color: var(--accent);
-            padding: 10px;
-            border-radius: 50%;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s ease;
+        .footer-timer {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 20px;
+            border-radius:16px;
+            border:1px solid var(--border-color);
+            background:#0a0a0a;
         }
 
-        .pause-play-btn:hover {
-            background-color: var(--button-hover);
+        .timer-block {
+            text-align:center;
+            width:60px;
         }
 
-        .pause-play-btn:active {
-            background-color: var(--button-active);
+        .timer-num {
+            font-size:22px;
+            font-weight:700;
+        }
+
+        .timer-label {
+            font-size:8px;
+            color: var(--text-secondary);
+            margin-top:4px;
+        }
+
+        .section-title {
+            font-size:10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            margin-bottom:15px;
+            display:block;
+        }
+
+        /* Новый блок About Me */
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap:8px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .info-item {
+            display:flex;
+            gap:6px;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            font-weight:500;
         }
 
     </style>
 </head>
 <body>
 
-<div class="particles">
-    <!-- Звездочки -->
-    <div class="star" style="top: 10%; left: 20%;"></div>
-    <div class="star" style="top: 30%; left: 40%;"></div>
-    <div class="star" style="top: 50%; left: 60%;"></div>
-    <div class="star" style="top: 70%; left: 80%;"></div>
+<div id="preloader">
+    <div class="spinner"></div>
+    <div class="loader-text">Вход В Систему</div>
 </div>
 
 <div class="container">
@@ -205,7 +260,7 @@
         </div>
     </div>
 
-    <!-- About Me -->
+    <!-- About Me в стиле Python-кода -->
     <div class="card">
         <span class="section-title">About Me</span>
         <div class="info-list">
@@ -228,50 +283,20 @@
         </div>
     </div>
 
-    <!-- Музыкальный проигрыватель -->
-    <div class="card">
-        <div class="music-player">
-            <!-- Аватарка трека -->
-            <div class="track-avatar">
-                <img src="https://i.ibb.co/Wpj3fVx3/1000188901.jpg" alt="Track Avatar">
-            </div>
-
-            <!-- Полоса прогресса -->
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-
-            <!-- Кнопки управления -->
-            <div class="control-buttons">
-                <button class="control-btn">&#9664;</button> <!-- Предыдущий трек -->
-                <button id="pause-play-btn" class="pause-play-btn">&#10074;&#10074;</button> <!-- Пауза/Продолжить -->
-                <button class="control-btn">&#9654;</button> <!-- Следующий трек -->
-            </div>
-        </div>
-    </div>
-
 </div>
 
+<!-- Партиклы на фоне -->
+<div class="particles"></div>
+
 <script>
-    // Инициализация состояния проигрывателя
-    let isPlaying = false;
-
-    // Элементы управления
-    const pausePlayButton = document.getElementById('pause-play-btn');
-
-    // Функция для смены состояния кнопки паузы/продолжения
-    pausePlayButton.addEventListener('click', function() {
-        if (isPlaying) {
-            // Пауза
-            pausePlayButton.innerHTML = '&#10074;&#10074;'; // Пауза
-            isPlaying = false;
-            pausePlayButton.style.backgroundColor = 'var(--accent)';
-        } else {
-            // Продолжение
-            pausePlayButton.innerHTML = '&#10073;&#10073;'; // Продолжить
-            isPlaying = true;
-            pausePlayButton.style.backgroundColor = '#4caf50'; // Зеленый для продолжения
-        }
+    window.addEventListener('load', function(){
+        setTimeout(()=>{
+            document.getElementById('preloader').style.opacity='0';
+            setTimeout(() => {
+                document.getElementById('preloader').style.visibility='hidden';
+            }, 500);
+            document.body.classList.add('loaded');
+        }, 1200);
     });
 
     function updateTimer(){
@@ -288,6 +313,5 @@
     setInterval(updateTimer,1000);
     updateTimer();
 </script>
-
 </body>
 </html>
