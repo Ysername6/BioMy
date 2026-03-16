@@ -29,6 +29,7 @@
             padding: 20px;
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
 
         /* Партиклы на фоне */
@@ -48,31 +49,7 @@
             to { transform: translateY(100%); }
         }
 
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #222;
-            border-top: 3px solid #999;
-            border-radius: 50%;
-            animation: spin 2s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        /* Стиль для контейнера */
         .container {
             max-width: 440px;
             width: 100%;
@@ -89,6 +66,7 @@
             transform: translateY(0);
         }
 
+        /* Стиль карточек */
         .card {
             background-color: var(--card-bg);
             border-radius: 16px;
@@ -118,18 +96,19 @@
         }
 
         .profile-info h1 {
-            margin:0;
+            margin: 0;
             font-family: monospace;
             letter-spacing: 1px;
             font-size: 24px;
         }
 
         .profile-info p {
-            margin:4px 0 10px 0;
+            margin: 4px 0 10px 0;
             font-size: 12px;
             color: var(--text-secondary);
         }
 
+        /* Социальные кнопки */
         .social-links-container {
             display: flex;
             flex-direction: column;
@@ -159,76 +138,66 @@
             transform: translateX(4px);
         }
 
-        /* Эффекты для кнопок соцсетей */
-        .tg-btn:hover {
-            background-color: #0088cc;
-            color: #ffffff;
-            border-color: #0088cc;
-        }
-
-        .tt-btn:hover {
-            background-color: #ff0050;
-            color: #000000;
-            border-color: #ff0050;
-        }
-
         .footer-timer {
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:15px 20px;
-            border-radius:16px;
-            border:1px solid var(--border-color);
-            background:#0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: #0a0a0a;
         }
 
         .timer-block {
-            text-align:center;
-            width:60px;
+            text-align: center;
+            width: 60px;
         }
 
         .timer-num {
-            font-size:22px;
-            font-weight:700;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         .timer-label {
-            font-size:8px;
+            font-size: 8px;
             color: var(--text-secondary);
-            margin-top:4px;
+            margin-top: 4px;
         }
 
-        .section-title {
-            font-size:10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-secondary);
-            margin-bottom:15px;
-            display:block;
+        /* Новый блок с треком */
+        .music-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        /* Новый блок About Me */
-        .info-list {
+        .music-player .song-info {
             display: flex;
             flex-direction: column;
-            gap:8px;
-            font-family: monospace;
-            font-size: 14px;
+            gap: 5px;
         }
 
-        .info-item {
-            display:flex;
-            gap:6px;
+        .music-player button {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .info-label {
+        .music-player button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Для текста песни */
+        .song-lyrics {
+            font-size: 12px;
             color: var(--text-secondary);
+            margin-left: 10px;
         }
-
-        .info-value {
-            font-weight:500;
-        }
-
     </style>
 </head>
 <body>
@@ -283,6 +252,15 @@
         </div>
     </div>
 
+    <!-- Плеер с треком -->
+    <div class="music-player">
+        <audio id="audioPlayer" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" controls></audio>
+        <div class="song-info">
+            <span>Tuborosho - Shalawa</span>
+            <div class="song-lyrics" id="songLyrics">Текст песни будет здесь</div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Партиклы на фоне -->
@@ -313,5 +291,6 @@
     setInterval(updateTimer,1000);
     updateTimer();
 </script>
+
 </body>
-    </html>
+</html>
